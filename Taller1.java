@@ -1,6 +1,7 @@
+import java.util.Arrays;
 import java.util.Scanner;
 
-public class Main {
+public class Taller1 {
 
     public static class Token {
 
@@ -74,94 +75,145 @@ public class Main {
         }
     }
 
-    public static void main(String[] args) {
+    public static void main(String[] args) 
+    {
         String palabrasReservadas[] = {"num", "bool", "function", "when", "do", "while", "true", "false", "return",
                 "if", "else", "print", "end", "break", "next", "and", "or", "var", "unless", "until", "not", "loop", "for"};
+        
         Scanner scanner = new Scanner(System.in);
+        
         int x = 1;
         int y = 1;
+        int xToprint = 1;
         int estado = 1;
         String lexemaActual = "";
         Token newTok;
-        while(scanner.hasNext()){
+        
+        while(scanner.hasNext())
+        {
             String s = scanner.nextLine();
-            for(int i = 0; i < s.length(); i++){
+            
+            for(int i = 0; i < s.length(); i++)
+            {
                 int numeroActual = s.charAt(i);
                 int numeroSiguiente = -1;
-                if(i <= s.length() - 1){
+                
+                if(i < s.length() - 1)
+                {
                     numeroSiguiente = s.charAt(i + 1);
                 }
+                
                 char letra = s.charAt(i);
-                if(estado == 1){
+                if(estado == 1)
+                {
                     estado = estadoAFD(numeroActual);
+                    xToprint = x;
                 }
-                System.out.println("numero de letra: " + numeroActual);
-                if(numeroActual == 10){
+                
+                System.out.println("Estado: " + estado);
+                //System.out.println("numeroActual: " + numeroActual);
+                //System.out.println("numeroSiguiente: " + numeroSiguiente);
+                System.out.println("x: " + x);
+                if(numeroActual == 10)
+                {
                     y++;
                     x=1;
                 }
-                if(numeroActual == 9){
+                if(numeroActual == 9)
+                {
                     x += 4;//si es que tab vale por 4 espacios
                 }
-                if(numeroActual == 32){
+                if(numeroActual == 32)
+                {
                     x++;
                 }
-                switch (estado) {
+                switch (estado)
+                {
                     case 2://num
                         lexemaActual += letra;
-                        if (numeroSiguiente >= 48 && numeroSiguiente <= 57) {
+                        if (numeroSiguiente >= 48 && numeroSiguiente <= 57)
+                        {
                             estado = 2;
-                        } else if (numeroSiguiente == 46) {
+                        } 
+                        else if (numeroSiguiente == 46) 
+                        {
                             estado = 3;
-                        } else
+                        } 
+                        else
                             estado = 4;
+                        x++;
                         break;
                     case 3://numero con punto
                         lexemaActual += letra;
-                        if (numeroSiguiente >= 48 && numeroSiguiente <= 57) {
+                        if (numeroSiguiente >= 48 && numeroSiguiente <= 57)
+                        {
                             estado = 3;
-                        } else
+                        } 
+                        else
                             estado = 4;
+                        x++;
                         break;
                     case 4:
-                        newTok = new Token("tk_num", lexemaActual, y, x);
-                        newTok.PrintTokenWithoutLexema();
+                        newTok = new Token("tk_num", lexemaActual, y, xToprint);
+                        newTok.PrintTokenWithLexema();
                         estado = 1;
+                        lexemaActual="";
+                        i--;
+                        x--;
                         break;
                     case 5:
+                    	lexemaActual += letra;
                         if ((numeroSiguiente >= 65 && numeroSiguiente <= 90) ||
-                                (numeroSiguiente >= 97 && numeroSiguiente <= 122) ||
-                                (numeroSiguiente >= 48 && numeroSiguiente <= 57)) {
-                            estado = 4;
-                        } else
+                            (numeroSiguiente >= 97 && numeroSiguiente <= 122) ||
+                            (numeroSiguiente >= 48 && numeroSiguiente <= 57)) 
+                        {
+                            estado = 5;
+                        } 
+                        else
                             estado = 6;
                         x++;
                         break;
                     case 6:
-                        newTok = new Token("tk_id", "A", y, x);
-                        newTok.PrintTokenWithLexema();
+                    	if (Arrays.asList(palabrasReservadas).contains(lexemaActual)) 
+                    	{
+                    		newTok = new Token(lexemaActual, y, xToprint);
+                            newTok.PrintTokenWithoutLexema();
+                    	}
+                    	else 
+                    	{
+                    		newTok = new Token("tk_id", lexemaActual, y, xToprint);
+                            newTok.PrintTokenWithLexema();
+                    	}
                         estado = 1;
+                        lexemaActual="";
+                        i--;
+                        x--;
                         break;
                     case 7:
-                        if (numeroSiguiente == 43) {
+                        if (numeroSiguiente == 43) 
+                        {
                             estado = 8;
-                        } else if (numeroSiguiente == 61)
+                        } 
+                        else if (numeroSiguiente == 61)
                             estado = 10;
                         else
                             estado = 9;
+                        x++;
                         break;
                     case 8:
-                        newTok = new Token("tk_incremento", y, x);
+                        newTok = new Token("tk_incremento", y, xToprint);
                         newTok.PrintTokenWithoutLexema();
                         estado = 1;
                         break;
                     case 9:
-                        newTok = new Token("tk_mas", y, x);
+                        newTok = new Token("tk_mas", y, xToprint);
                         newTok.PrintTokenWithoutLexema();
                         estado = 1;
+                        i--;
+                        x--;
                         break;
                     case 10:
-                        newTok = new Token("tk_sum_asig", y, x);
+                        newTok = new Token("tk_sum_asig", y, xToprint);
                         newTok.PrintTokenWithoutLexema();
                         estado = 1;
                         break;
@@ -266,9 +318,19 @@ public class Main {
         }
     }
 
-    static int estadoAFD(int n){
-        if (n >= 48 && n <= 57) {//del 0 al 9
+    static int estadoAFD(int n)
+    {
+        if (n >= 48 && n <= 57) 
+        {//del 0 al 9
             return 2;
+        }
+        else if ((n >= 65 && n <= 90) || (n >= 97 && n <= 122))
+        {//del (A a la Z) o (a a la z)
+            return 5;
+        }
+        else if (n == 43) 
+        {//+
+        	return 7;
         }
         return 1;
     }
