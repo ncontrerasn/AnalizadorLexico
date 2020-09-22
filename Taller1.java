@@ -1,122 +1,275 @@
 import java.util.Scanner;
 
-public class Taller1 {
+public class Main {
 
     public static class Token {
 
-        public int tipo;
+        public String tipo;
         public String lexema;
         public int fila;
         public int columna;
 
-        public static final int
-                t_num          = 1,
-                t_id           = 2,
-                t_function     = 3,
-                t_fid          = 4,
-                t_when         = 5,
-                t_do           = 6,
-                t_while        = 7,
-                t_true         = 8,
-                t_false        = 9,
-                t_return       = 10,
-                t_if           = 11,
-                t_else         = 12,
-                t_print        = 13,
-                t_end          = 14,
-                t_break        = 15,
-                t_next         = 16,
-                t_and          = 17,
-                t_or           = 18,
-                t_var          = 19,
-                t_unless       = 20,
-                t_until        = 21,
-                t_not          = 22,
-                t_loop         = 23,
-                t_for          = 24,
-                tk_num         = 25,
-                tk_bool        = 26,
-                tk_mayor       = 27,
-                tk_mayor_igual = 28,
-                tk_menor       = 29,
-                tk_menor_igual = 30,
-                tk_asignacion  = 31,
-                tk_sum_asig    = 32,
-                tk_res_asig    = 33,
-                tk_mul_asig    = 34,
-                tk_div_asig    = 35,
-                tk_mod_asig    = 36,
-                tk_igualdad    = 37,
-                tk_diferente   = 38,
-                tk_incremento  = 39,
-                tk_decremento  = 40,
-                tk_llave_izq   = 41,
-                tk_llave_der   = 42,
-                tk_par_izq     = 43,
-                tk_par_der     = 44,
-                tk_mas         = 45,
-                tk_menos       = 46,
-                tk_mul         = 47,
-                tk_div         = 48,
-                tk_mod         = 49,
-                tk_coma        = 50,
-                tk_puntoycoma  = 51,
-                tk_dospuntos   = 52;
+        /*
+        palabras reservadas:
+                "num", "bool", "function", "fid", "when", "do", "while", "true", "false", "return",
+                "if", "else", "print", "end", "break", "next", "and", "or", "var", "unless",
+                "until", "not", "loop", "for"
 
-        public Token(int tipo, String lexema, int fila, int columna ) {
-        	this.tipo = tipo;
-        	this.lexema = lexema;
-        	this.fila = fila;
-        	this.columna = columna;
+         tokens:
+                "tk_num", "tk_mayor", "tk_mayor_igual", "tk_menor", "tk_menor_igual",
+                "tk_asignacion", "tk_sum_asig", "tk_res_asig", "tk_mul_asig", "tk_div_asig",
+                "tk_mod_asig", "tk_igualdad", "tk_diferente", "tk_incremento", "tk_decremento",
+                "tk_llave_izq", "tk_llave_der", "tk_par_izq", "tk_par_der", "tk_mas", "tk_menos",
+                "tk_mul", "tk_div", "tk_mod", "tk_coma", "tk_puntoycoma", "tk_dospuntos"
+
+                newTok = new Token("tk_num", "A", y, x);
+                newTok = new Token("tk_mayor", "A", y, x);
+                newTok = new Token("tk_mayor_igual", "A", y, x);
+                newTok = new Token("tk_menor", "A", y, x);
+                newTok = new Token("tk_menor_igual", "A", y, x);
+                newTok = new Token("tk_asignacion", "A", y, x);
+                newTok = new Token("tk_sum_asig", "A", y, x);
+                newTok = new Token("tk_res_asig", "A", y, x);
+                newTok = new Token("tk_mul_asig", "A", y, x);
+                newTok = new Token("tk_div_asig", "A", y, x);
+                newTok = new Token("tk_mod_asig", "A", y, x);
+                newTok = new Token("tk_igualdad", "A", y, x);
+                newTok = new Token("tk_diferente", "A", y, x);
+                newTok = new Token("tk_incremento", "A", y, x);
+                newTok = new Token("tk_decremento", "A", y, x);
+                newTok = new Token("tk_llave_izq", "A", y, x);
+                newTok = new Token("tk_llave_der", "A", y, x);
+                newTok = new Token("tk_par_izq", "A", y, x);
+                newTok = new Token("tk_par_der", "A", y, x);
+                newTok = new Token("tk_mas", "A", y, x);
+                newTok = new Token("tk_menos", "A", y, x);
+                newTok = new Token("tk_mul", "A", y, x);
+                newTok = new Token("tk_div", "A", y, x);
+                newTok = new Token("tk_mod", "A", y, x);
+                newTok = new Token("tk_coma", "A", y, x);
+                newTok = new Token("tk_puntoycoma", "A", y, x);
+                newTok = new Token("tk_dospuntos", "A", y, x);
+
+         */
+
+        public Token(String tipo, String lexema, int fila, int columna ) {
+            this.tipo = tipo;
+            this.lexema = lexema;
+            this.fila = fila;
+            this.columna = columna;
         }
 
-        public Token(int tipo, int fila, int columna ) {
-        	this.tipo = tipo;
-        	this.fila = fila;
-        	this.columna = columna;
+        public Token(String tipo, int fila, int columna ) {
+            this.tipo = tipo;
+            this.fila = fila;
+            this.columna = columna;
         }
 
         public void PrintTokenWithoutLexema() {
-            System.out.println("<"+this.tipo+","+this.fila+","+this.columna+">");
-         }
+            System.out.println("<"+this.tipo+", "+this.fila+", "+this.columna+">");
+        }
 
         public void PrintTokenWithLexema() {
-            System.out.println("<"+this.tipo+","+this.lexema+","+this.fila+","+this.columna+">");
-         }
+            System.out.println("<"+this.tipo+", "+this.lexema+", "+this.fila+", "+this.columna+">");
+        }
     }
 
     public static void main(String[] args) {
-	String palabrasReservadas[] = {"num", "id", "function", "fid", "when", "do", "while", "true", "false", "return", "if", "else", "print", "end", "break", "next", "and", "or", "var", "unless", "until", "not", "loop", "for"};
+        String palabrasReservadas[] = {"num", "bool", "function", "when", "do", "while", "true", "false", "return",
+                "if", "else", "print", "end", "break", "next", "and", "or", "var", "unless", "until", "not", "loop", "for"};
         Scanner scanner = new Scanner(System.in);
         int x = 1;
         int y = 1;
+        int estado = 1;
+        String lexemaActual = "";
         Token newTok;
         while(scanner.hasNext()){
             String s = scanner.nextLine();
             for(int i = 0; i < s.length(); i++){
-                switch (s.charAt(i)){
-                    case '\n':
-                        y++;
-                        x=1;
+                int numeroActual = s.charAt(i);
+                int numeroSiguiente = -1;
+                if(i <= s.length() - 1){
+                    numeroSiguiente = s.charAt(i + 1);
+                }
+                char letra = s.charAt(i);
+                if(estado == 1){
+                    estado = estadoAFD(numeroActual);
+                }
+                System.out.println("numero de letra: " + numeroActual);
+                if(numeroActual == 10){
+                    y++;
+                    x=1;
+                }
+                if(numeroActual == 9){
+                    x += 4;//si es que tab vale por 4 espacios
+                }
+                if(numeroActual == 32){
+                    x++;
+                }
+                switch (estado) {
+                    case 2://num
+                        lexemaActual += letra;
+                        if (numeroSiguiente >= 48 && numeroSiguiente <= 57) {
+                            estado = 2;
+                        } else if (numeroSiguiente == 46) {
+                            estado = 3;
+                        } else
+                            estado = 4;
                         break;
-                    case ' ':
+                    case 3://numero con punto
+                        lexemaActual += letra;
+                        if (numeroSiguiente >= 48 && numeroSiguiente <= 57) {
+                            estado = 3;
+                        } else
+                            estado = 4;
+                        break;
+                    case 4:
+                        newTok = new Token("tk_num", lexemaActual, y, x);
+                        newTok.PrintTokenWithoutLexema();
+                        estado = 1;
+                        break;
+                    case 5:
+                        if ((numeroSiguiente >= 65 && numeroSiguiente <= 90) ||
+                                (numeroSiguiente >= 97 && numeroSiguiente <= 122) ||
+                                (numeroSiguiente >= 48 && numeroSiguiente <= 57)) {
+                            estado = 4;
+                        } else
+                            estado = 6;
                         x++;
                         break;
-                    case '\t':
-                        x++;
+                    case 6:
+                        newTok = new Token("tk_id", "A", y, x);
+                        newTok.PrintTokenWithLexema();
+                        estado = 1;
                         break;
-                    case ';':
-                    	newTok = new Token(51,y,x);
-                    	newTok.PrintTokenWithoutLexema();
-                    	x++;
-                    	break;
-                    case 'A':
-                    	newTok = new Token(2,"A",y,x);
-                    	newTok.PrintTokenWithLexema();
-                    	x++;
-                    	break;
+                    case 7:
+                        if (numeroSiguiente == 43) {
+                            estado = 8;
+                        } else if (numeroSiguiente == 61)
+                            estado = 10;
+                        else
+                            estado = 9;
+                        break;
+                    case 8:
+                        newTok = new Token("tk_incremento", y, x);
+                        newTok.PrintTokenWithoutLexema();
+                        estado = 1;
+                        break;
+                    case 9:
+                        newTok = new Token("tk_mas", y, x);
+                        newTok.PrintTokenWithoutLexema();
+                        estado = 1;
+                        break;
+                    case 10:
+                        newTok = new Token("tk_sum_asig", y, x);
+                        newTok.PrintTokenWithoutLexema();
+                        estado = 1;
+                        break;
+                    case 11:
+                        if (numeroSiguiente == 61)
+                            estado = 12;
+                        break;
+                    case 12:
+                        newTok = new Token("tk_igualdad", y, x);
+                        newTok.PrintTokenWithoutLexema();
+                        estado = 1;
+                        break;
+                    case 13:
+                        if (numeroSiguiente == 61)
+                            estado = 15;
+                        else
+                            estado = 14;
+                        break;
+                    case 14:
+                        newTok = new Token("tk_div", y, x);
+                        newTok.PrintTokenWithoutLexema();
+                        estado = 1;
+                        break;
+                    case 15:
+                        newTok = new Token("tk_div_asig", y, x);
+                        newTok.PrintTokenWithoutLexema();
+                        estado = 1;
+                        break;
+                    case 16:
+                        if (numeroSiguiente == 61)
+                            estado = 18;
+                        else
+                            estado = 17;
+                        break;
+                    case 17:
+                        newTok = new Token("tk_mul", y, x);
+                        newTok.PrintTokenWithoutLexema();
+                        estado = 1;
+                        break;
+                    case 18:
+                        newTok = new Token("tk_mul_asig", y, x);
+                        newTok.PrintTokenWithoutLexema();
+                        estado = 1;
+                        break;
+                    case 19:
+                        if (numeroSiguiente == 61)
+                            estado = 21;
+                        else
+                            estado = 20;
+                        break;
+                    case 20:
+                        newTok = new Token("tk_dospuntos", y, x);
+                        newTok.PrintTokenWithoutLexema();
+                        estado = 1;
+                        break;
+                    case 21:
+                        newTok = new Token("tk_asignacion", y, x);
+                        newTok.PrintTokenWithoutLexema();
+                        estado = 1;
+                        break;
+                    case 22:
+                        if ((numeroSiguiente >= 65 && numeroSiguiente <= 90) ||
+                                (numeroSiguiente >= 97 && numeroSiguiente <= 122))
+                            estado = 23;
+                        break;
+                    case 23:
+                        if ((numeroSiguiente >= 65 && numeroSiguiente <= 90) ||
+                                (numeroSiguiente >= 97 && numeroSiguiente <= 122))
+                            estado = 23;
+                        else
+                            estado = 24;
+                        break;
+                    case 24:
+                        newTok = new Token("tk_fid", y, x);
+                        newTok.PrintTokenWithoutLexema();
+                        estado = 1;
+                        break;
+                    case 25:
+                        if (numeroSiguiente == 61)
+                            estado = 27;
+                        else
+                            estado = 26;
+                        break;
+                    case 26:
+                        newTok = new Token("tk_mod", y, x);
+                        newTok.PrintTokenWithoutLexema();
+                        estado = 1;
+                        break;
+                    case 27:
+                        newTok = new Token("tk_mod_asig", y, x);
+                        newTok.PrintTokenWithoutLexema();
+                        estado = 1;
+                        break;
+                    case 28://meta
+                        if (numeroSiguiente == 61)
+                            estado = 27;
+                        else
+                            estado = 26;
+                        break;
                 }
             }
         }
     }
-} 
+
+    static int estadoAFD(int n){
+        if (n >= 48 && n <= 57) {//del 0 al 9
+            return 2;
+        }
+        return 1;
+    }
+}
