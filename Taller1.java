@@ -1,7 +1,7 @@
 import java.util.Arrays;
 import java.util.Scanner;
 
-public class Taller1 {
+public class Main {
 
     public static class Token {
 
@@ -37,11 +37,11 @@ public class Taller1 {
         }
 
         public void PrintTokenWithoutLexema() {
-            System.out.println("<"+this.tipo+", "+this.fila+", "+this.columna+">");
+            System.out.println("<"+this.tipo+","+this.fila+","+this.columna+">");
         }
 
         public void PrintTokenWithLexema() {
-            System.out.println("<"+this.tipo+", "+this.lexema+", "+this.fila+", "+this.columna+">");
+            System.out.println("<"+this.tipo+","+this.lexema+","+this.fila+","+this.columna+">");
         }
     }
 
@@ -70,14 +70,14 @@ public class Taller1 {
                 int numeroActual = s.charAt(i);
                 int numeroSiguiente = -1;
                 char letra = s.charAt(i);
-                
+
                 if (numeroActual==35) //No tomar en cuenta comentarios
                 {// #
-                	y++;
-                	x=0;
-                	break;
+                    y++;
+                    x=0;
+                    break;
                 }
-                
+
                 if(i < s.length() - 1)
                 {
                     numeroSiguiente = s.charAt(i + 1);
@@ -165,7 +165,7 @@ public class Taller1 {
                         }
                         else
                         {
-                            newTok = new Token("tk_id", lexemaActual, y, xToprint);
+                            newTok = new Token("id", lexemaActual, y, xToprint);
                             newTok.PrintTokenWithLexema();
                         }
                         estado = 1;
@@ -288,7 +288,7 @@ public class Taller1 {
                         break;
                     case 24:
                         y = y - fixY(numeroActual);
-                        newTok = new Token("tk_fid",lexemaActual, y, xToprint);
+                        newTok = new Token("fid",lexemaActual, y, xToprint);
                         newTok.PrintTokenWithLexema();
                         estado = 1;
                         lexemaActual = "";
@@ -323,12 +323,12 @@ public class Taller1 {
                             estado = 29;
                         break;
                     case 29:
-                    	y = y - fixY(numeroActual);
+                        y = y - fixY(numeroActual);
                         newTok = new Token("tk_mayor", y, xToprint);
                         newTok.PrintTokenWithoutLexema();
                         estado = 1;
                         lexemaActual = "";
-                        i--;//solo con los de estrella            
+                        i--;//solo con los de estrella
                         x = x - fix(numeroActual);//con asterisco, reinciar lexema cunado se haga un token
                         break;
                     case 30:
@@ -362,7 +362,7 @@ public class Taller1 {
                         lexemaActual = "";
                         break;
                     case 35:
-                    	y = y - fixY(numeroActual);
+                        y = y - fixY(numeroActual);
                         newTok = new Token("tk_menos",lexemaActual, y, xToprint);
                         newTok.PrintTokenWithLexema();
                         estado = 1;
@@ -421,12 +421,12 @@ public class Taller1 {
                             estado = 39;
                         break;
                     case 39:
-                    	y = y - fixY(numeroActual);
+                        y = y - fixY(numeroActual);
                         newTok = new Token("tk_menor", y, xToprint);
                         newTok.PrintTokenWithoutLexema();
                         estado = 1;
                         lexemaActual = "";
-                        i--;//solo con los de estrella                 
+                        i--;//solo con los de estrella
                         x = x - fix(numeroActual);//con asterisco, reinciar lexema cunado se haga un token
                         break;
                     case 40:
@@ -436,7 +436,7 @@ public class Taller1 {
                         lexemaActual = "";
                         break;
                     case 999:
-                        System.out.println("Error léxico(línea:"+y+",posición:"+xToprint+")");
+                        System.out.println("Error lÃ©xico(lÃ­nea:"+y+",posiciÃ³n:"+xToprint+")");
                         return;
                 }
             }
