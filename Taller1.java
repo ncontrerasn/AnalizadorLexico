@@ -73,6 +73,8 @@ public class Taller1 {
                 
                 if (numeroActual==35) //No tomar en cuenta comentarios
                 {// #
+                	y++;
+                	x=0;
                 	break;
                 }
                 
@@ -81,7 +83,8 @@ public class Taller1 {
                     numeroSiguiente = s.charAt(i + 1);
                 }
 
-                //System.out.println("letra: " + letra);
+                //System.out.println("i: " + i);
+                //System.out.println("y: " + y);
                 if(estado == 1)
                 {
                     estado = estadoAFD(numeroActual);
@@ -134,6 +137,7 @@ public class Taller1 {
                             estado = 4;
                         break;
                     case 4:
+                        y = y - fixY(numeroActual);
                         newTok = new Token("tk_num", lexemaActual, y, xToprint);
                         newTok.PrintTokenWithLexema();
                         estado = 1;
@@ -153,6 +157,7 @@ public class Taller1 {
                             estado = 6;
                         break;
                     case 6:
+                        y = y - fixY(numeroActual);
                         if (Arrays.asList(palabrasReservadas).contains(lexemaActual))
                         {
                             newTok = new Token(lexemaActual, y, xToprint);
@@ -184,6 +189,7 @@ public class Taller1 {
                         estado = 1;
                         break;
                     case 9:
+                        y = y - fixY(numeroActual);
                         newTok = new Token("tk_mas", y, xToprint);
                         newTok.PrintTokenWithoutLexema();
                         estado = 1;
@@ -213,6 +219,7 @@ public class Taller1 {
                             estado = 14;
                         break;
                     case 14:
+                        y = y - fixY(numeroActual);
                         newTok = new Token("tk_div", y, xToprint);
                         newTok.PrintTokenWithoutLexema();
                         estado = 1;
@@ -231,6 +238,7 @@ public class Taller1 {
                             estado = 17;
                         break;
                     case 17:
+                        y = y - fixY(numeroActual);
                         newTok = new Token("tk_mul", y, xToprint);
                         newTok.PrintTokenWithoutLexema();
                         estado = 1;
@@ -249,6 +257,7 @@ public class Taller1 {
                             estado = 20;
                         break;
                     case 20:
+                        y = y - fixY(numeroActual);
                         newTok = new Token("tk_dospuntos", y, xToprint);
                         newTok.PrintTokenWithoutLexema();
                         estado = 1;
@@ -278,6 +287,7 @@ public class Taller1 {
                             estado = 24;
                         break;
                     case 24:
+                        y = y - fixY(numeroActual);
                         newTok = new Token("tk_fid",lexemaActual, y, xToprint);
                         newTok.PrintTokenWithLexema();
                         estado = 1;
@@ -292,6 +302,7 @@ public class Taller1 {
                             estado = 26;
                         break;
                     case 26://
+                        y = y - fixY(numeroActual);
                         newTok = new Token("tk_mod",lexemaActual, y, xToprint);
                         newTok.PrintTokenWithLexema();
                         estado = 1;
@@ -312,11 +323,12 @@ public class Taller1 {
                             estado = 29;
                         break;
                     case 29:
+                    	y = y - fixY(numeroActual);
                         newTok = new Token("tk_mayor", y, xToprint);
                         newTok.PrintTokenWithoutLexema();
                         estado = 1;
                         lexemaActual = "";
-                        i--;//solo con los de estrella
+                        i--;//solo con los de estrella            
                         x = x - fix(numeroActual);//con asterisco, reinciar lexema cunado se haga un token
                         break;
                     case 30:
@@ -350,6 +362,7 @@ public class Taller1 {
                         lexemaActual = "";
                         break;
                     case 35:
+                    	y = y - fixY(numeroActual);
                         newTok = new Token("tk_menos",lexemaActual, y, xToprint);
                         newTok.PrintTokenWithLexema();
                         estado = 1;
@@ -408,11 +421,12 @@ public class Taller1 {
                             estado = 39;
                         break;
                     case 39:
+                    	y = y - fixY(numeroActual);
                         newTok = new Token("tk_menor", y, xToprint);
                         newTok.PrintTokenWithoutLexema();
                         estado = 1;
                         lexemaActual = "";
-                        i--;//solo con los de estrella
+                        i--;//solo con los de estrella                 
                         x = x - fix(numeroActual);//con asterisco, reinciar lexema cunado se haga un token
                         break;
                     case 40:
@@ -436,6 +450,14 @@ public class Taller1 {
             return 4;
         }
         return 1;
+    }
+    static int fixY(int numAct)
+    {
+        if(numAct==10)
+        {
+            return 1;
+        }
+        return 0;
     }
 
     static int estadoAFD(int n)
