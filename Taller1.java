@@ -82,7 +82,7 @@ public class Taller1 {
         
         Scanner scanner = new Scanner(System.in);
         
-        int x = 1;
+        int x = 0;
         int y = 1;
         int xToprint = 1;
         int estado = 1;
@@ -95,6 +95,7 @@ public class Taller1 {
             
             for(int i = 0; i < s.length(); i++)
             {
+            	x++;
                 int numeroActual = s.charAt(i);
                 int numeroSiguiente = -1;
                 
@@ -110,22 +111,27 @@ public class Taller1 {
                     xToprint = x;
                 }
                 
-                System.out.println("Estado: " + estado);
+                //System.out.println("Estado: " + estado);
                 //System.out.println("numeroActual: " + numeroActual);
                 //System.out.println("numeroSiguiente: " + numeroSiguiente);
-                System.out.println("x: " + x);
+                //System.out.println("x: " + x);
                 if(numeroActual == 10)
                 {
                     y++;
                     x=1;
                 }
-                if(numeroActual == 9)
+                else if(numeroActual == 9)
                 {
-                    x += 4;//si es que tab vale por 4 espacios
+                    x += 3;//si es que tab vale por 4 espacios (3 + 1 del x++ al comienzo)
                 }
-                if(numeroActual == 32)
+                else if(numeroActual == 32)
                 {
-                    x++;
+                    continue;
+                }
+                else if (estado==1)
+                {
+                	System.out.println("Error léxico(línea:"+x+",posición:"+y+")");
+                	return;
                 }
                 switch (estado)
                 {
@@ -141,7 +147,6 @@ public class Taller1 {
                         } 
                         else
                             estado = 4;
-                        x++;
                         break;
                     case 3://numero con punto
                         lexemaActual += letra;
@@ -151,7 +156,6 @@ public class Taller1 {
                         } 
                         else
                             estado = 4;
-                        x++;
                         break;
                     case 4:
                         newTok = new Token("tk_num", lexemaActual, y, xToprint);
@@ -159,7 +163,7 @@ public class Taller1 {
                         estado = 1;
                         lexemaActual="";
                         i--;
-                        x--;
+                        x = x - fix(numeroActual);
                         break;
                     case 5:
                     	lexemaActual += letra;
@@ -168,10 +172,9 @@ public class Taller1 {
                             (numeroSiguiente >= 48 && numeroSiguiente <= 57)) 
                         {
                             estado = 5;
-                        } 
+                        }
                         else
                             estado = 6;
-                        x++;
                         break;
                     case 6:
                     	if (Arrays.asList(palabrasReservadas).contains(lexemaActual)) 
@@ -187,7 +190,7 @@ public class Taller1 {
                         estado = 1;
                         lexemaActual="";
                         i--;
-                        x--;
+                        x = x - fix(numeroActual);
                         break;
                     case 7:
                         if (numeroSiguiente == 43) 
@@ -198,7 +201,6 @@ public class Taller1 {
                             estado = 10;
                         else
                             estado = 9;
-                        x++;
                         break;
                     case 8:
                         newTok = new Token("tk_incremento", y, xToprint);
@@ -210,7 +212,7 @@ public class Taller1 {
                         newTok.PrintTokenWithoutLexema();
                         estado = 1;
                         i--;
-                        x--;
+                        x = x - fix(numeroActual);
                         break;
                     case 10:
                         newTok = new Token("tk_sum_asig", y, xToprint);
@@ -317,10 +319,19 @@ public class Taller1 {
             }
         }
     }
+    
+    static int fix(int numAct) 
+    {
+    	if(numAct==9) 
+        {
+        	return 4;
+        }
+        return 1;
+    }
 
     static int estadoAFD(int n)
     {
-        if (n >= 48 && n <= 57) 
+        if (n >= 48 && n <= 57)
         {//del 0 al 9
             return 2;
         }
@@ -328,7 +339,7 @@ public class Taller1 {
         {//del (A a la Z) o (a a la z)
             return 5;
         }
-        else if (n == 43) 
+        else if (n == 43)
         {//+
         	return 7;
         }
