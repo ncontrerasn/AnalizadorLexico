@@ -426,8 +426,8 @@ public class Main {
                         newTok.PrintTokenWithoutLexema();
                         estado = 1;
                         lexemaActual = "";
-                        i--;//solo con los de estrella
-                        x = x - fix(numeroActual);//con asterisco, reinciar lexema cunado se haga un token
+                        i--;
+                        x = x - fix(numeroActual);
                         break;
                     case 40:
                         newTok = new Token("tk_menor_igual", y, xToprint);
@@ -504,7 +504,7 @@ public class Main {
         }
         else if (n == 60)
         {// <
-            return 28;
+            return 39;//corrigiendo
         }
         else if (n == 33)
         {// !
