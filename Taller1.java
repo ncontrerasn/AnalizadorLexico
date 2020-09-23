@@ -105,6 +105,7 @@ public class Taller1 {
                 }
                 
                 char letra = s.charAt(i);
+                //System.out.println("letra: " + letra);
                 if(estado == 1)
                 {
                     estado = estadoAFD(numeroActual);
@@ -130,8 +131,7 @@ public class Taller1 {
                 }
                 else if (estado==1)
                 {
-                	System.out.println("Error léxico(línea:"+x+",posición:"+y+")");
-                	return;
+                	estado = 999; //Estado encargado del error lexico
                 }
                 switch (estado)
                 {
@@ -222,9 +222,11 @@ public class Taller1 {
                     case 11:
                         if (numeroSiguiente == 61)
                             estado = 12;
-                        break;
+                        else
+                        	estado = 999;
+                    	break;
                     case 12:
-                        newTok = new Token("tk_igualdad", y, x);
+                        newTok = new Token("tk_igualdad", y, xToprint);
                         newTok.PrintTokenWithoutLexema();
                         estado = 1;
                         break;
@@ -235,12 +237,14 @@ public class Taller1 {
                             estado = 14;
                         break;
                     case 14:
-                        newTok = new Token("tk_div", y, x);
+                        newTok = new Token("tk_div", y, xToprint);
                         newTok.PrintTokenWithoutLexema();
                         estado = 1;
+                        i--;
+                        x = x - fix(numeroActual);
                         break;
                     case 15:
-                        newTok = new Token("tk_div_asig", y, x);
+                        newTok = new Token("tk_div_asig", y, xToprint);
                         newTok.PrintTokenWithoutLexema();
                         estado = 1;
                         break;
@@ -251,12 +255,14 @@ public class Taller1 {
                             estado = 17;
                         break;
                     case 17:
-                        newTok = new Token("tk_mul", y, x);
+                        newTok = new Token("tk_mul", y, xToprint);
                         newTok.PrintTokenWithoutLexema();
                         estado = 1;
+                        i--;
+                        x = x - fix(numeroActual);
                         break;
                     case 18:
-                        newTok = new Token("tk_mul_asig", y, x);
+                        newTok = new Token("tk_mul_asig", y, xToprint);
                         newTok.PrintTokenWithoutLexema();
                         estado = 1;
                         break;
@@ -267,31 +273,41 @@ public class Taller1 {
                             estado = 20;
                         break;
                     case 20:
-                        newTok = new Token("tk_dospuntos", y, x);
+                        newTok = new Token("tk_dospuntos", y, xToprint);
                         newTok.PrintTokenWithoutLexema();
                         estado = 1;
+                        i--;
+                        x = x - fix(numeroActual);
                         break;
                     case 21:
-                        newTok = new Token("tk_asignacion", y, x);
+                        newTok = new Token("tk_asignacion", y, xToprint);
                         newTok.PrintTokenWithoutLexema();
                         estado = 1;
                         break;
                     case 22:
+                    	lexemaActual += letra;
                         if ((numeroSiguiente >= 65 && numeroSiguiente <= 90) ||
-                                (numeroSiguiente >= 97 && numeroSiguiente <= 122))
-                            estado = 23;
-                        break;
+                           (numeroSiguiente >= 97 && numeroSiguiente <= 122))
+                        	estado = 23;
+                        else
+                        	estado = 999;
+                    	break;
                     case 23:
+                    	lexemaActual += letra;
                         if ((numeroSiguiente >= 65 && numeroSiguiente <= 90) ||
-                                (numeroSiguiente >= 97 && numeroSiguiente <= 122))
-                            estado = 23;
+                           (numeroSiguiente >= 97 && numeroSiguiente <= 122) ||
+                           (numeroSiguiente >= 48 && numeroSiguiente <= 57))
+                        	estado = 23;
                         else
                             estado = 24;
                         break;
                     case 24:
-                        newTok = new Token("tk_fid", y, x);
-                        newTok.PrintTokenWithoutLexema();
+                        newTok = new Token("tk_fid",lexemaActual, y, x);
+                        newTok.PrintTokenWithLexema();
                         estado = 1;
+                        lexemaActual = "";
+                        i--;
+                        x = x - fix(numeroActual);
                         break;
                     case 25:
                         if (numeroSiguiente == 61)
@@ -315,6 +331,9 @@ public class Taller1 {
                         else
                             estado = 26;
                         break;
+                    case 999:
+                    	System.out.println("Error léxico(línea:"+y+",posición:"+xToprint+")");
+                    	return;
                 }
             }
         }
@@ -332,16 +351,36 @@ public class Taller1 {
     static int estadoAFD(int n)
     {
         if (n >= 48 && n <= 57)
-        {//del 0 al 9
+        {// del 0 al 9
             return 2;
         }
         else if ((n >= 65 && n <= 90) || (n >= 97 && n <= 122))
-        {//del (A a la Z) o (a a la z)
+        {// del (A a la Z) o (a a la z)
             return 5;
         }
         else if (n == 43)
-        {//+
+        {// +
         	return 7;
+        }
+        else if (n == 61)
+        {// =
+        	return 11;
+        }
+        else if (n == 47)
+        {// /(Div)
+        	return 13;
+        }
+        else if (n == 42)
+        {// *
+        	return 16;
+        }
+        else if (n == 58)
+        {// :
+        	return 19;
+        }
+        else if (n == 64)
+        {// @
+        	return 22;
         }
         return 1;
     }
