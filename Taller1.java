@@ -1,7 +1,7 @@
 import java.util.Arrays;
 import java.util.Scanner;
 
-public class Main {
+public class Taller1 {
 
     public static class Token {
 
@@ -62,19 +62,25 @@ public class Main {
         while(scanner.hasNext())
         {
             String s = scanner.nextLine();
+            s = s + '\n';
 
             for(int i = 0; i < s.length(); i++)
             {
                 x++;
                 int numeroActual = s.charAt(i);
                 int numeroSiguiente = -1;
-
+                char letra = s.charAt(i);
+                
+                if (numeroActual==35) //No tomar en cuenta comentarios
+                {// #
+                	break;
+                }
+                
                 if(i < s.length() - 1)
                 {
                     numeroSiguiente = s.charAt(i + 1);
                 }
 
-                char letra = s.charAt(i);
                 //System.out.println("letra: " + letra);
                 if(estado == 1)
                 {
@@ -89,7 +95,7 @@ public class Main {
                 if(numeroActual == 10)
                 {
                     y++;
-                    x=1;
+                    x=0;
                 }
                 else if(numeroActual == 9)
                 {
@@ -272,7 +278,7 @@ public class Main {
                             estado = 24;
                         break;
                     case 24:
-                        newTok = new Token("tk_fid",lexemaActual, y, x);
+                        newTok = new Token("tk_fid",lexemaActual, y, xToprint);
                         newTok.PrintTokenWithLexema();
                         estado = 1;
                         lexemaActual = "";
@@ -286,7 +292,7 @@ public class Main {
                             estado = 26;
                         break;
                     case 26://
-                        newTok = new Token("tk_mod",lexemaActual, y, x);
+                        newTok = new Token("tk_mod",lexemaActual, y, xToprint);
                         newTok.PrintTokenWithLexema();
                         estado = 1;
                         lexemaActual = "";
@@ -294,7 +300,7 @@ public class Main {
                         x = x - fix(numeroActual);//con asterisco, reinciar lexema cunado se haga un token
                         break;
                     case 27:
-                        newTok = new Token("tk_mod_asig", y, x);
+                        newTok = new Token("tk_mod_asig", y, xToprint);
                         newTok.PrintTokenWithoutLexema();
                         estado = 1;
                         lexemaActual = "";
@@ -306,25 +312,25 @@ public class Main {
                             estado = 29;
                         break;
                     case 29:
-                        newTok = new Token("tk_mayor_igual",lexemaActual, y, x);
-                        newTok.PrintTokenWithLexema();
+                        newTok = new Token("tk_mayor", y, xToprint);
+                        newTok.PrintTokenWithoutLexema();
                         estado = 1;
                         lexemaActual = "";
                         i--;//solo con los de estrella
                         x = x - fix(numeroActual);//con asterisco, reinciar lexema cunado se haga un token
                         break;
                     case 30:
-                        newTok = new Token("tk_mayor_igual", y, x);
+                        newTok = new Token("tk_mayor_igual", y, xToprint);
                         newTok.PrintTokenWithoutLexema();
                         estado = 1;
                         lexemaActual = "";
                         break;
                     case 31://meta
                         if (numeroSiguiente == 61)
-                            estado = 30;
+                            estado = 32;
                         break;
                     case 32:
-                        newTok = new Token("tk_diferente", y, x);
+                        newTok = new Token("tk_diferente", y, xToprint);
                         newTok.PrintTokenWithoutLexema();
                         estado = 1;
                         lexemaActual = "";
@@ -338,13 +344,13 @@ public class Main {
                             estado = 35;
                         break;
                     case 34:
-                        newTok = new Token("tk_decremento", y, x);
+                        newTok = new Token("tk_decremento", y, xToprint);
                         newTok.PrintTokenWithoutLexema();
                         estado = 1;
                         lexemaActual = "";
                         break;
                     case 35:
-                        newTok = new Token("tk_menos",lexemaActual, y, x);
+                        newTok = new Token("tk_menos",lexemaActual, y, xToprint);
                         newTok.PrintTokenWithLexema();
                         estado = 1;
                         lexemaActual = "";
@@ -352,44 +358,71 @@ public class Main {
                         x = x - fix(numeroActual);//con asterisco, reinciar lexema cunado se haga un token
                         break;
                     case 36:
-                        newTok = new Token("tk_res_asig", y, x);
+                        newTok = new Token("tk_res_asig", y, xToprint);
                         newTok.PrintTokenWithoutLexema();
                         estado = 1;
                         lexemaActual = "";
                         break;
                     case 37:
-
                         switch (numeroActual){
                             case 40:
-                                newTok = new Token("tk_par_izq", y, x);
+                                newTok = new Token("tk_par_izq", y, xToprint);
                                 newTok.PrintTokenWithoutLexema();
                                 break;
                             case 41:
-                                newTok = new Token("tk_par_der", y, x);
+                                newTok = new Token("tk_par_der", y, xToprint);
                                 newTok.PrintTokenWithoutLexema();
                                 break;
                             case 91:
-                                newTok = new Token("tk_cor_izq", y, x);
+                                newTok = new Token("tk_cor_izq", y, xToprint);
                                 newTok.PrintTokenWithoutLexema();
                                 break;
                             case 93:
-                                newTok = new Token("tk_cor_der", y, x);
+                                newTok = new Token("tk_cor_der", y,xToprint);
                                 newTok.PrintTokenWithoutLexema();
                                 break;
                             case 123:
-                                newTok = new Token("tk_llave_izq", y, x);
+                                newTok = new Token("tk_llave_izq", y, xToprint);
                                 newTok.PrintTokenWithoutLexema();
                                 break;
                             case 125:
-                                newTok = new Token("tk_llave_der", y, x);
+                                newTok = new Token("tk_llave_der", y,xToprint);
+                                newTok.PrintTokenWithoutLexema();
+                                break;
+                            case 59:
+                                newTok = new Token("tk_puntoycoma", y, xToprint);
+                                newTok.PrintTokenWithoutLexema();
+                                break;
+                            case 44:
+                                newTok = new Token("tk_coma", y, xToprint);
                                 newTok.PrintTokenWithoutLexema();
                                 break;
                         }
                         estado = 1;
                         lexemaActual = "";
                         break;
+                    case 38://meta
+                        if (numeroSiguiente == 61)
+                            estado = 40;
+                        else
+                            estado = 39;
+                        break;
+                    case 39:
+                        newTok = new Token("tk_menor", y, xToprint);
+                        newTok.PrintTokenWithoutLexema();
+                        estado = 1;
+                        lexemaActual = "";
+                        i--;//solo con los de estrella
+                        x = x - fix(numeroActual);//con asterisco, reinciar lexema cunado se haga un token
+                        break;
+                    case 40:
+                        newTok = new Token("tk_menor_igual", y, xToprint);
+                        newTok.PrintTokenWithoutLexema();
+                        estado = 1;
+                        lexemaActual = "";
+                        break;
                     case 999:
-                        System.out.println("Error lÃ©xico(lÃ­nea:"+y+",posiciÃ³n:"+xToprint+")");
+                        System.out.println("Error léxico(línea:"+y+",posición:"+xToprint+")");
                         return;
                 }
             }
@@ -438,6 +471,30 @@ public class Main {
         else if (n == 64)
         {// @
             return 22;
+        }
+        else if (n == 37)
+        {// %
+            return 25;
+        }
+        else if (n == 62)
+        {// >
+            return 28;
+        }
+        else if (n == 60)
+        {// <
+            return 28;
+        }
+        else if (n == 33)
+        {// !
+            return 31;
+        }
+        else if (n == 45)
+        {// -
+            return 33;
+        }
+        else if ((n == 123)||(n==125)||(n==91)||(n==93)||(n==59)||(n==44)||(n==40)||(n==41))
+        {// (),;[]{}
+            return 37;
         }
         return 1;
     }
