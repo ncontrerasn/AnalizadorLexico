@@ -504,7 +504,7 @@ public class Main {
         }
         else if (n == 60)
         {// <
-            return 39;//corrigiendo
+            return 38;
         }
         else if (n == 33)
         {// !
