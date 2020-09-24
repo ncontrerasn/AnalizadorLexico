@@ -95,16 +95,16 @@ public class Main {
                 //System.out.println("numeroActual: " + numeroActual);
                 //System.out.println("numeroSiguiente: " + numeroSiguiente);
                 //System.out.println("x: " + x);
-                if(numeroActual == 10)
+                if(numeroActual == 10)//nueva línea
                 {
                     y++;
                     x=0;
                 }
-                else if(numeroActual == 9)
+                else if(numeroActual == 9)//tab
                 {
-                    x += 3;//si es que tab vale por 4 espacios (3 + 1 del x++ al comienzo)
+                    x += 3;//tab vale por 4 espacios (se aumentan 3)
                 }
-                else if(numeroActual == 32)
+                else if(numeroActual == 32)//espacio
                 {
                     continue;
                 }
@@ -114,27 +114,34 @@ public class Main {
                 }
                 switch (estado)
                 {
-                    case 2://num
+                    case 2:
                         lexemaActual += letra;
-                        if (numeroSiguiente >= 48 && numeroSiguiente <= 57)
+                        if (numeroSiguiente >= 48 && numeroSiguiente <= 57)//0-9
                         {
                             estado = 2;
                         }
-                        else if (numeroSiguiente == 46)
+                        else if (numeroSiguiente == 46)//.
                         {
                             estado = 3;
                         }
                         else
                             estado = 4;
                         break;
-                    case 3://numero con punto
-                        lexemaActual += letra;
-                        if (numeroSiguiente >= 48 && numeroSiguiente <= 57)
+                    case 3:
+                        if (numeroSiguiente >= 48 && numeroSiguiente <= 57)//0-9
                         {
-                            estado = 3;
+                            lexemaActual += letra;
+                            estado = 41;
                         }
-                        else
-                            estado = 4;
+                        else{
+                            y = y - fixY(numeroActual);
+                            newTok = new Token("tk_num", lexemaActual, y, xToprint);
+                            newTok.PrintTokenWithLexema();
+                            estado = 1;
+                            lexemaActual="";
+                            i--;
+                            x = x - fix(numeroActual);
+                        }
                         break;
                     case 4:
                         y = y - fixY(numeroActual);
@@ -149,7 +156,7 @@ public class Main {
                         lexemaActual += letra;
                         if ((numeroSiguiente >= 65 && numeroSiguiente <= 90) ||
                                 (numeroSiguiente >= 97 && numeroSiguiente <= 122) ||
-                                (numeroSiguiente >= 48 && numeroSiguiente <= 57))
+                                (numeroSiguiente >= 48 && numeroSiguiente <= 57))//A-Z, a-z, 0-9
                         {
                             estado = 5;
                         }
@@ -174,11 +181,11 @@ public class Main {
                         x = x - fix(numeroActual);
                         break;
                     case 7:
-                        if (numeroSiguiente == 43)
+                        if (numeroSiguiente == 43)//+
                         {
                             estado = 8;
                         }
-                        else if (numeroSiguiente == 61)
+                        else if (numeroSiguiente == 61)//=
                             estado = 10;
                         else
                             estado = 9;
@@ -202,7 +209,7 @@ public class Main {
                         estado = 1;
                         break;
                     case 11:
-                        if (numeroSiguiente == 61)
+                        if (numeroSiguiente == 61)//=
                             estado = 12;
                         else
                             estado = 999;
@@ -213,7 +220,7 @@ public class Main {
                         estado = 1;
                         break;
                     case 13:
-                        if (numeroSiguiente == 61)
+                        if (numeroSiguiente == 61)//=
                             estado = 15;
                         else
                             estado = 14;
@@ -232,7 +239,7 @@ public class Main {
                         estado = 1;
                         break;
                     case 16:
-                        if (numeroSiguiente == 61)
+                        if (numeroSiguiente == 61)//=
                             estado = 18;
                         else
                             estado = 17;
@@ -251,7 +258,7 @@ public class Main {
                         estado = 1;
                         break;
                     case 19:
-                        if (numeroSiguiente == 61)
+                        if (numeroSiguiente == 61)//=
                             estado = 21;
                         else
                             estado = 20;
@@ -272,7 +279,7 @@ public class Main {
                     case 22:
                         lexemaActual += letra;
                         if ((numeroSiguiente >= 65 && numeroSiguiente <= 90) ||
-                                (numeroSiguiente >= 97 && numeroSiguiente <= 122))
+                                (numeroSiguiente >= 97 && numeroSiguiente <= 122))//A-Z, a-z
                             estado = 23;
                         else
                             estado = 999;
@@ -281,7 +288,7 @@ public class Main {
                         lexemaActual += letra;
                         if ((numeroSiguiente >= 65 && numeroSiguiente <= 90) ||
                                 (numeroSiguiente >= 97 && numeroSiguiente <= 122) ||
-                                (numeroSiguiente >= 48 && numeroSiguiente <= 57))
+                                (numeroSiguiente >= 48 && numeroSiguiente <= 57))//A-Z, a-z, 0-9
                             estado = 23;
                         else
                             estado = 24;
@@ -292,11 +299,11 @@ public class Main {
                         newTok.PrintTokenWithLexema();
                         estado = 1;
                         lexemaActual = "";
-                        i--;//solo con los de estrella
-                        x = x - fix(numeroActual);//con asterisco, reinciar lexema cunado se haga un token
+                        i--;
+                        x = x - fix(numeroActual);
                         break;
                     case 25://
-                        if (numeroSiguiente == 61)
+                        if (numeroSiguiente == 61)//=
                             estado = 27;
                         else
                             estado = 26;
@@ -307,8 +314,8 @@ public class Main {
                         newTok.PrintTokenWithLexema();
                         estado = 1;
                         lexemaActual = "";
-                        i--;//solo con los de estrella
-                        x = x - fix(numeroActual);//con asterisco, reinciar lexema cunado se haga un token
+                        i--;
+                        x = x - fix(numeroActual);
                         break;
                     case 27:
                         newTok = new Token("tk_mod_asig", y, xToprint);
@@ -316,8 +323,8 @@ public class Main {
                         estado = 1;
                         lexemaActual = "";
                         break;
-                    case 28://meta
-                        if (numeroSiguiente == 61)
+                    case 28:
+                        if (numeroSiguiente == 61)//=
                             estado = 30;
                         else
                             estado = 29;
@@ -328,8 +335,8 @@ public class Main {
                         newTok.PrintTokenWithoutLexema();
                         estado = 1;
                         lexemaActual = "";
-                        i--;//solo con los de estrella
-                        x = x - fix(numeroActual);//con asterisco, reinciar lexema cunado se haga un token
+                        i--;
+                        x = x - fix(numeroActual);
                         break;
                     case 30:
                         newTok = new Token("tk_mayor_igual", y, xToprint);
@@ -338,7 +345,7 @@ public class Main {
                         lexemaActual = "";
                         break;
                     case 31://meta
-                        if (numeroSiguiente == 61)
+                        if (numeroSiguiente == 61)//=
                             estado = 32;
                         break;
                     case 32:
@@ -347,10 +354,10 @@ public class Main {
                         estado = 1;
                         lexemaActual = "";
                         break;
-                    case 33://meta
-                        if (numeroSiguiente == 45)
+                    case 33:
+                        if (numeroSiguiente == 45)//-
                             estado = 34;
-                        else if(numeroSiguiente == 61)
+                        else if(numeroSiguiente == 61)//=
                             estado = 36;
                         else
                             estado = 35;
@@ -367,8 +374,8 @@ public class Main {
                         newTok.PrintTokenWithLexema();
                         estado = 1;
                         lexemaActual = "";
-                        i--;//solo con los de estrella
-                        x = x - fix(numeroActual);//con asterisco, reinciar lexema cunado se haga un token
+                        i--;
+                        x = x - fix(numeroActual);
                         break;
                     case 36:
                         newTok = new Token("tk_res_asig", y, xToprint);
@@ -414,8 +421,8 @@ public class Main {
                         estado = 1;
                         lexemaActual = "";
                         break;
-                    case 38://meta
-                        if (numeroSiguiente == 61)
+                    case 38:
+                        if (numeroSiguiente == 61)//=
                             estado = 40;
                         else
                             estado = 39;
@@ -434,6 +441,15 @@ public class Main {
                         newTok.PrintTokenWithoutLexema();
                         estado = 1;
                         lexemaActual = "";
+                        break;
+                    case 41:
+                        lexemaActual += letra;
+                        if (numeroSiguiente >= 48 && numeroSiguiente <= 57)//0-9
+                        {
+                            estado = 41;
+                        }
+                        else
+                            estado = 4;
                         break;
                     case 999:
                         System.out.println("Error léxico(línea:"+y+",posición:"+xToprint+")");
