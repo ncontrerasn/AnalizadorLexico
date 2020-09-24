@@ -1,3 +1,10 @@
+/*
+Desarrolado por:
+Hubert Tovar
+Sergio Gonzalez
+Nicolas Contreras
+*/
+
 import java.util.Arrays;
 import java.util.Scanner;
 
@@ -82,19 +89,11 @@ public class Main {
                 {
                     numeroSiguiente = s.charAt(i + 1);
                 }
-
-                //System.out.println("i: " + i);
-                //System.out.println("y: " + y);
                 if(estado == 1)
                 {
                     estado = estadoAFD(numeroActual);
                     xToprint = x;
                 }
-
-                //System.out.println("Estado: " + estado);
-                //System.out.println("numeroActual: " + numeroActual);
-                //System.out.println("numeroSiguiente: " + numeroSiguiente);
-                //System.out.println("x: " + x);
                 if(numeroActual == 10)//nueva línea
                 {
                     y++;
@@ -112,7 +111,7 @@ public class Main {
                 {
                     estado = 999; //Estado encargado del error lexico
                 }
-                switch (estado)
+                switch (estado)//switch encargado de direccionar el automata despues del paso inical desde el estado 1
                 {
                     case 2:
                         lexemaActual += letra;
@@ -459,7 +458,7 @@ public class Main {
         }
     }
 
-    static int fix(int numAct)
+    static int fix(int numAct)//funciones para arreglar indice por tab
     {
         if(numAct==9)
         {
@@ -476,7 +475,7 @@ public class Main {
         return 0;
     }
 
-    static int estadoAFD(int n)
+    static int estadoAFD(int n)//para pasar del estado 1 al siguiente
     {
         if (n >= 48 && n <= 57)
         {// del 0 al 9
