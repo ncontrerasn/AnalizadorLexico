@@ -1,5 +1,5 @@
 /*
-Desarrolado por:
+Desarrollado por:
 Hubert Tovar
 Sergio Gonzalez
 Nicolas Contreras
