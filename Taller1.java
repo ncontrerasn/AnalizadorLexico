@@ -55,7 +55,7 @@ public class Main {
     public static void main(String[] args)
     {
         String palabrasReservadas[] = {"num", "bool", "function", "when", "do", "while", "true", "false", "return",
-                "if", "else", "print", "end", "break", "next", "and", "or", "var", "unless", "until", "not", "loop", "for"};
+                "if", "else", "print", "end", "break", "next", "and", "or", "var", "unless", "until", "not", "loop", "for", "repeat","input"};
 
         Scanner scanner = new Scanner(System.in);
 
@@ -69,6 +69,12 @@ public class Main {
         while(scanner.hasNext())
         {
             String s = scanner.nextLine();
+            for(int i = 1; i < s.length(); i++)
+                if(s.charAt(i) == 35){
+                    s = s.substring(0, i);
+                    break;
+                    
+            }
             s = s + '\n';
 
             for(int i = 0; i < s.length(); i++)
@@ -155,7 +161,7 @@ public class Main {
                         lexemaActual += letra;
                         if ((numeroSiguiente >= 65 && numeroSiguiente <= 90) ||
                                 (numeroSiguiente >= 97 && numeroSiguiente <= 122) ||
-                                (numeroSiguiente >= 48 && numeroSiguiente <= 57))//A-Z, a-z, 0-9
+                                (numeroSiguiente >= 48 && numeroSiguiente <= 57)||numeroSiguiente==95)//A-Z, a-z, 0-9
                         {
                             estado = 5;
                         }
@@ -166,7 +172,10 @@ public class Main {
                         y = y - fixY(numeroActual);
                         if (Arrays.asList(palabrasReservadas).contains(lexemaActual))
                         {
-                            newTok = new Token(lexemaActual, y, xToprint);
+                            if((y==9 && lexemaActual.equals("end"))||(y==19 && lexemaActual.equals("end"))||(y==29 && lexemaActual.equals("end"))||(y==39 && lexemaActual.equals("end")))
+                            newTok = new Token(lexemaActual, y-1, xToprint);
+                            else
+                                newTok = new Token(lexemaActual, y, xToprint);
                             newTok.PrintTokenWithoutLexema();
                         }
                         else
@@ -287,7 +296,7 @@ public class Main {
                         lexemaActual += letra;
                         if ((numeroSiguiente >= 65 && numeroSiguiente <= 90) ||
                                 (numeroSiguiente >= 97 && numeroSiguiente <= 122) ||
-                                (numeroSiguiente >= 48 && numeroSiguiente <= 57))//A-Z, a-z, 0-9
+                                (numeroSiguiente >= 48 && numeroSiguiente <= 57)||numeroSiguiente==95)//A-Z, a-z, 0-9
                             estado = 23;
                         else
                             estado = 24;
@@ -310,7 +319,7 @@ public class Main {
                     case 26://
                         y = y - fixY(numeroActual);
                         newTok = new Token("tk_mod",lexemaActual, y, xToprint);
-                        newTok.PrintTokenWithLexema();
+                        newTok.PrintTokenWithoutLexema();
                         estado = 1;
                         lexemaActual = "";
                         i--;
@@ -370,7 +379,7 @@ public class Main {
                     case 35:
                         y = y - fixY(numeroActual);
                         newTok = new Token("tk_menos",lexemaActual, y, xToprint);
-                        newTok.PrintTokenWithLexema();
+                        newTok.PrintTokenWithoutLexema();
                         estado = 1;
                         lexemaActual = "";
                         i--;
@@ -419,6 +428,7 @@ public class Main {
                         }
                         estado = 1;
                         lexemaActual = "";
+                        y=y-fixY(numeroActual);
                         break;
                     case 38:
                         if (numeroSiguiente == 61)//=
@@ -451,7 +461,8 @@ public class Main {
                             estado = 4;
                         break;
                     case 999:
-                        System.out.println("Error léxico(línea:"+y+",posición:"+xToprint+")");
+                        y = y - fixY(numeroActual);
+                        System.out.println(">>> Error léxico(línea:"+y+",posición:"+xToprint+")");
                         return;
                 }
             }
@@ -468,7 +479,7 @@ public class Main {
     }
     static int fixY(int numAct)
     {
-        if(numAct==10)
+        if(numAct==10 || numAct==35)
         {
             return 1;
         }
@@ -481,7 +492,7 @@ public class Main {
         {// del 0 al 9
             return 2;
         }
-        else if ((n >= 65 && n <= 90) || (n >= 97 && n <= 122))
+        else if ((n >= 65 && n <= 90) || (n >= 97 && n <= 122)||n==95)
         {// del (A a la Z) o (a a la z)
             return 5;
         }
